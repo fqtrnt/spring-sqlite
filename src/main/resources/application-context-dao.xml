@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        "
+>
+    <!-- auto-creates tables as necessary, probably only useful for testing -->
+    <bean id="tableCreator" class="com.j256.ormlite.spring.TableCreator" init-method="initialize">
+        <property name="connectionSource" ref="connectionSource" />
+        <property name="configuredDaos">
+            <list>
+                <ref bean="subjectDao" />
+                <ref bean="knowledgeDao" />
+            </list>
+        </property>
+    </bean>
+    <bean id="subjectDao" class="com.j256.ormlite.spring.DaoFactory" factory-method="createDao">
+        <constructor-arg index="0" ref="connectionSource" />
+        <constructor-arg index="1" value="org.study.entity.Subject" />
+    </bean>
+    <bean id="knowledgeDao" class="com.j256.ormlite.spring.DaoFactory" factory-method="createDao">
+        <constructor-arg index="0" ref="connectionSource" />
+        <constructor-arg index="1" value="org.study.entity.Knowledge" />
+    </bean>
+</beans>
