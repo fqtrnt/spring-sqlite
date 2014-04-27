@@ -10,6 +10,11 @@
         "
 >
     <description>Spring base config </description>
+    <context:annotation-config />
+    <context:component-scan base-package="org.study">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
 
     <bean id="connectionSource" class="com.j256.ormlite.jdbc.JdbcConnectionSource" init-method="initialize">
         <property name="url" value="${JDBC.ConnectionURL}" />

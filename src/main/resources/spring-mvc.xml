@@ -2,17 +2,44 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
         "
 >
     <description>Card MVC</description>
-    <context:annotation-config /> 
-    <context:component-scan base-package="org.study"></context:component-scan>
+    <mvc:annotation-driven />
+    <mvc:resources mapping="/asset/**" location="/asset/"/> 
+    <context:component-scan base-package="org.study" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+    
+    <mvc:default-servlet-handler/>
+    
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/jsp/" p:suffix=".jsp" />
+    
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+      <property name="order" value="1"/>
+      <property name="mediaTypes">
+        <map>
+          <entry key="html" value="text/html"/>
+          <entry key="json" value="application/json"/>
+        </map>
+      </property>
+      <property name="viewResolvers">
+        <list>
+          <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+          <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/views/" p:suffix=".jsp" />
+        </list>
+      </property>
+      <property name="defaultViews">
+        <list>
+          <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+        </list>
+      </property>
+    </bean>
 </beans>
