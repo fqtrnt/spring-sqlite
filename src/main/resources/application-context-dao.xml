@@ -8,7 +8,7 @@
         "
 >
     <!-- auto-creates tables as necessary, probably only useful for testing -->
-    <bean id="tableCreator" class="com.j256.ormlite.spring.TableCreator" init-method="initialize">
+    <bean id="tableCreator" class="com.j256.ormlite.spring.TableCreator" init-method="initialize" destroy-method="destroy">
         <property name="connectionSource" ref="connectionSource" />
         <property name="configuredDaos">
             <list>

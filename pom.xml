@@ -90,6 +90,11 @@ org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UT
             <plugin>
               <groupId>org.mortbay.jetty</groupId>
               <artifactId>jetty-maven-plugin</artifactId>
+              <configuration>
+                <scanIntervalSeconds>6</scanIntervalSeconds>
+                <stopKey>stop</stopKey>
+                <stopPort>8089</stopPort>
+              </configuration>
             </plugin>
         </plugins>
     </build>

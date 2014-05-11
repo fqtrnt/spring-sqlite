@@ -26,7 +26,6 @@
     <bean id="transactionManager" class="com.j256.ormlite.misc.TransactionManager">
         <property name="connectionSource" ref="connectionSource" />
     </bean>
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
 
     <beans profile="production">
         <context:property-placeholder ignore-resource-not-found="true"
