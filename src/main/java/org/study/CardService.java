@@ -33,7 +33,6 @@ public class CardService extends AbstractService {
 	/**
 	 * @param subject
 	 * @return
-	 * @throws SQLException 
 	 */
 	@Transactional(readOnly = false)
 	public int add(String subject) {
