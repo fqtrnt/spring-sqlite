@@ -17,11 +17,30 @@
             contentType: 'application/json',
             panelHeight: 'auto'
         });
+        $('#dlg').dialog({
+            iconCls:'icon-save',
+            buttons: '#dlg-buttons'
+        });
     });
+    function editSubject() {
+        $('#subjectName').val($('#cc').combobox('getText'));
+        $('#subjectId').val($('#cc').combobox('getValue'));
+    };
   </script>
 </head>
 <body>
     Welcome to the Card.
     <input id="cc" class="easyui-combobox">
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#dlg').dialog('open');editSubject();" data-options="iconCls:'icon-add'">Add</a>
+    <div id="dlg" class="easyui-dialog" title="Basic Dialog"
+         style="width:300px;height:120px;padding:10px"
+         closed="true">
+        Subject: <input class="textbox" name="subjectName" id="subjectName">
+        <input type="hidden" name="subjectId" id="subjectId">
+    </div>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:alert('save')">Save</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')">Close</a>
+    </div>
 </body>
 </html>
