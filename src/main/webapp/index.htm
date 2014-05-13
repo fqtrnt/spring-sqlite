@@ -6,11 +6,12 @@
   <link rel="stylesheet" type="text/css" href="asset/easyui/themes/default/easyui.css">
   <link rel="stylesheet" type="text/css" href="asset/easyui/themes/icon.css">
   <script type="text/javascript" src="asset/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="asset/jquery/jquery.json.min.js"></script>
   <script type="text/javascript" src="asset/easyui/jquery.easyui.min.js"></script>
   <script>
     $(function() {
         $('#cc').combobox({
-            url: '/card/subjects',
+            url: 'subjects',
             valueField: 'id',
             textField: 'title',
             dataType: 'json',
@@ -19,27 +20,50 @@
         });
         $('#dlg').dialog({
             iconCls:'icon-save',
-            buttons: '#dlg-buttons'
+            buttons: '#dlg-buttons',
+            closed: true,
+            onClose: function() {
+                $('#cc').combobox('reload');
+                $('#subjectName').val('');
+                $('#subjectId').val('');
+            }
         });
     });
     function editSubject() {
         $('#subjectName').val($('#cc').combobox('getText'));
         $('#subjectId').val($('#cc').combobox('getValue'));
+        $('#dlg').dialog('open');
+    };
+
+    function saveSubject() {
+        $.ajax({
+            url: "subject/save",
+            type: 'post',
+            data: $.toJSON({id: $('#subjectId').val(), title: $('#subjectName').val()}),
+            cache: false,
+            contentType : 'application/json',
+            dataType : 'json',
+            success: function (text) {
+                $('#subjectId').val(text);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+            }
+        });
     };
   </script>
 </head>
 <body>
     Welcome to the Card.
     <input id="cc" class="easyui-combobox">
-    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#dlg').dialog('open');editSubject();" data-options="iconCls:'icon-add'">Add</a>
-    <div id="dlg" class="easyui-dialog" title="Basic Dialog"
-         style="width:300px;height:120px;padding:10px"
-         closed="true">
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="editSubject();" data-options="iconCls:'icon-add'">Add</a>
+    <div id="dlg" class="easyui-dialog" title="Subject Dialog"
+         style="width:300px;height:120px;padding:10px">
         Subject: <input class="textbox" name="subjectName" id="subjectName">
         <input type="hidden" name="subjectId" id="subjectId">
     </div>
     <div id="dlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:alert('save')">Save</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:saveSubject()">Save</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')">Close</a>
     </div>
 </body>

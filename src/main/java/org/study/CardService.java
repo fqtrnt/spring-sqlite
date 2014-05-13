@@ -35,11 +35,10 @@ public class CardService extends AbstractService {
 	 * @return
 	 */
 	@Transactional(readOnly = false)
-	public int add(String subject) {
-		Subject root = new Subject();
-		root.setTitle(subject);
+	public int save(Subject subject) {
 		try {
-			return subjectDao.create(root);
+		    subjectDao.createOrUpdate(subject);
+			return subject.getId();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -50,7 +49,7 @@ public class CardService extends AbstractService {
 	 */
 	public List<Subject> loadAllSubjects() {
 		try {
-			return subjectDao.queryForAll();
+		    return subjectDao.queryBuilder().orderBy("id", false).query();
 		} catch (SQLException e) {
 			return newArrayList();
 		}

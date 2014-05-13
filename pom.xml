@@ -96,6 +96,9 @@ org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UT
                 <!--scanIntervalSeconds>6</scanIntervalSeconds-->
                 <stopKey>stop</stopKey>
                 <stopPort>8089</stopPort>
+                <webAppConfig>
+                    <contextPath>/card</contextPath>
+                </webAppConfig>
                 <connectors>
                     <connector implementation="org.eclipse.jetty.server.bio.SocketConnector">
                         <port>8080</port>

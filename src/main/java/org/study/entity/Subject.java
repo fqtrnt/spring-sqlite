@@ -4,6 +4,8 @@
  */
 package org.study.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -14,6 +16,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * @since 1.0.0.0
  */
 @DatabaseTable(tableName = "subject")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Subject {
     @DatabaseField(generatedId = true)
     private int id;
@@ -23,6 +26,7 @@ public class Subject {
     private int pageSize;
     @DatabaseField
     private boolean disabled;
+    @JsonIgnore
     @ForeignCollectionField
     private ForeignCollection<Knowledge> knowledges;
     /**

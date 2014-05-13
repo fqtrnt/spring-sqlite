@@ -12,8 +12,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.study.entity.Subject;
 
@@ -23,7 +23,7 @@ import org.study.entity.Subject;
  * @since 1.0.0.0
  */
 @Controller
-@RequestMapping(value = "/card", produces = "application/json", method = { POST, GET } )
+@RequestMapping(produces = "application/json", method = { POST, GET } )
 public class CardController {
 	@Autowired
 	protected CardService carService;
@@ -38,8 +38,8 @@ public class CardController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "add/{subject}")
-	public int addSubject(@RequestPart String subject) {
-		return carService.add(subject);
+	@RequestMapping(value = "subject/save")
+	public int saveSubject(@RequestBody Subject subject) {
+		return carService.save(subject);
 	}
 }
