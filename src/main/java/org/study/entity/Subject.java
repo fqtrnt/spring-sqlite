@@ -6,6 +6,7 @@ package org.study.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -21,6 +22,7 @@ public class Subject {
     @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField
+    @JsonProperty("text")
     private String title;
     @DatabaseField
     private int pageSize;

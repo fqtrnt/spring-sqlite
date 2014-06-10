@@ -13,7 +13,7 @@
         $('#cc').combobox({
             url: 'subjects',
             valueField: 'id',
-            textField: 'title',
+            textField: 'text',
             dataType: 'json',
             contentType: 'application/json',
             panelHeight: 'auto'
@@ -45,6 +45,7 @@
             dataType : 'json',
             success: function (text) {
                 $('#subjectId').val(text);
+		alert($('#subjectName').val() + ' has been saved.');
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert(jqXHR.responseText);
@@ -66,5 +67,7 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:saveSubject()">Save</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')">Close</a>
     </div>
+    <br>
+    <ul id="SubjectTree"class="easyui-tree"data-options="url:'',method:'get',"></ul>
 </body>
 </html>

@@ -13,6 +13,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.study.entity.Subject;
@@ -41,5 +42,10 @@ public class CardController {
 	@RequestMapping(value = "subject/save")
 	public int saveSubject(@RequestBody Subject subject) {
 		return carService.save(subject);
+	}
+	@ResponseBody
+	@RequestMapping(value = "subject/tree/{subjectId}")
+	public Subject subjectTree(@PathVariable int subjectId ) {
+		return null;
 	}
 }
