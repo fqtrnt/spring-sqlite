@@ -45,7 +45,7 @@ public class CardController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "subject/tree/{subjectId}")
-	public Subject subjectTree(@PathVariable int subjectId ) {
-		return null;
+	public Subject subjectTree(@PathVariable String subjectId ) {
+		return carService.findSubject(subjectId);
 	}
 }

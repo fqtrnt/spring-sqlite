@@ -54,4 +54,12 @@ public class CardService extends AbstractService {
 			return newArrayList();
 		}
 	}
+
+	public Subject findSubject(String subjectId) {
+		try {
+			return subjectDao.queryForId(subjectId);
+		} catch (SQLException e) {
+			return null;
+		}
+	}
 }

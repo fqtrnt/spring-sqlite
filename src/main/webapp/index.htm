@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +17,10 @@
             textField: 'text',
             dataType: 'json',
             contentType: 'application/json',
-            panelHeight: 'auto'
+            panelHeight: 'auto',
+	    onChange: function() {
+		buildTree($('#cc').combobox('getValue'));
+	    }
         });
         $('#dlg').dialog({
             iconCls:'icon-save',
@@ -52,6 +56,21 @@
             }
         });
     };
+
+    function buildTree(subjectId) {
+	$('#SubjectTree').tree({
+	    url: 'subject/tree/' + subjectId,
+	    checkbox: true,
+	    onContextMenu: function(e, node) {
+		e.preventDefault();
+		$('#SubjectTree').tree('select', node.target);
+		$('#treeMenu').menu('show', {
+		    left: e.pageX,
+		    top: e.pageY
+		});
+	    }
+	});
+    }
   </script>
 </head>
 <body>
@@ -68,6 +87,11 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')">Close</a>
     </div>
     <br>
-    <ul id="SubjectTree"class="easyui-tree"data-options="url:'',method:'get',"></ul>
+    <ul id="SubjectTree"class="easyui-tree"></ul>
+    <div id="treeMenu" class="easyui-menu" style="width: 120px;">
+	<div onclick="append()" iconcls="icon-add">添加</div>
+	<div onclick="update()" iconcls="icon-edit">修改</div>
+	<div onclick="remove()" iconcls="icon-edit">删除</div>
+    </div>
 </body>
 </html>
