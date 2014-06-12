@@ -86,12 +86,12 @@ public class SQLiteTest extends AbstractJUnit4SpringContextTests {
         assertFalse(retSub.getKnowledges().isEmpty());
         Knowledge retKnowledge = (Knowledge) retSub.getKnowledges().toArray()[0];
         System.out.println(retKnowledge.getId());
-        assertNotNull(retKnowledge.getChindren());
-        assertFalse(retKnowledge.getChindren().isEmpty());
-        System.out.println(retKnowledge.getChindren().size());
+        assertNotNull(retKnowledge.getChildren());
+        assertFalse(retKnowledge.getChildren().isEmpty());
+        System.out.println(retKnowledge.getChildren().size());
 
         // 生成随机列表
-        final List<Knowledge> list = new ArrayList<Knowledge>(retKnowledge.getChindren());
+        final List<Knowledge> list = new ArrayList<Knowledge>(retKnowledge.getChildren());
         Set<Integer> cache = new HashSet<Integer>();
         for (int i = 0; i < 100; i++) {
             list.get(i).setOrdered(nextInt(cache, 100));
@@ -107,7 +107,7 @@ public class SQLiteTest extends AbstractJUnit4SpringContextTests {
             }
         });
 
-        for (Object iterable_element : retKnowledge.getChindren()) {
+        for (Object iterable_element : retKnowledge.getChildren()) {
             Knowledge subKnow = (Knowledge) iterable_element;
             System.out.println(subKnow.getId() + "\t" + subKnow.getOrdered());
         }

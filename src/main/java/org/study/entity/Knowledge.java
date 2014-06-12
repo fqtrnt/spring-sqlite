@@ -32,7 +32,7 @@ public class Knowledge {
     @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "parent_id")
     private Knowledge parent;
     @ForeignCollectionField
-    private ForeignCollection<Knowledge> chindren;
+    private ForeignCollection<Knowledge> children;
     /**
      * @return the id
      */
@@ -70,10 +70,10 @@ public class Knowledge {
         this.subject = subject;
     }
     /**
-     * @return the chindren
+     * @return the children
      */
-    public ForeignCollection<Knowledge> getChindren() {
-        return chindren;
+    public ForeignCollection<Knowledge> getChildren() {
+        return children;
     }
     /**
      * @return the parent

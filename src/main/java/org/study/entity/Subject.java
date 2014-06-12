@@ -25,8 +25,6 @@ public class Subject {
     @JsonProperty("text")
     private String title;
     @DatabaseField
-    private int pageSize;
-    @DatabaseField
     private boolean disabled;
     @JsonIgnore
     @ForeignCollectionField
@@ -62,22 +60,10 @@ public class Subject {
         return knowledges;
     }
     /**
-     * @return the pageSize
-     */
-    public int getPageSize() {
-        return pageSize;
-    }
-    /**
      * @return the disabled
      */
     public boolean isDisabled() {
         return disabled;
-    }
-    /**
-     * @param pageSize the pageSize to set
-     */
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
     }
     /**
      * @param disabled the disabled to set
