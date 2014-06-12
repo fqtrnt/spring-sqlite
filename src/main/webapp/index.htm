@@ -82,27 +82,33 @@
     };
   </script>
 </head>
-<body>
-    Welcome to the Card.
-    <input id="cc" class="easyui-combobox">
-    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="editSubject();" data-options="iconCls:'icon-add'">Add</a>
-    <div id="dlg" class="easyui-dialog" title="Subject Dialog"
-         style="width:300px;height:120px;padding:10px">
-        Subject: <input class="textbox" name="subjectName" id="subjectName">
-        <input type="hidden" name="subjectId" id="subjectId">
+<body class="easyui-layout">
+    <div region="north" title="" split="true" style="height:100px;">
+			<input id="cc" class="easyui-combobox">
+			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="editSubject();" data-options="iconCls:'icon-add'">Add</a>
+			<div id="dlg" class="easyui-dialog" title="Subject Dialog"
+				style="width:300px;height:120px;padding:10px">
+				Subject: <input class="textbox" name="subjectName" id="subjectName">
+				<input type="hidden" name="subjectId" id="subjectId">
+			</div>
+			<div id="dlg-buttons">
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:saveSubject()">Save</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')">Close</a>
+			</div>
     </div>
-    <div id="dlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:saveSubject()">Save</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')">Close</a>
-    </div>
-    <br>
-    <div style="width: 50%;">
-        <ul id="SubjectTree"class="easyui-tree"></ul>
-    </div>
-    <div id="treeMenu" class="easyui-menu" style="width: 120px;">
-        <div onclick="append()" iconcls="icon-add">添加</div>
-        <div onclick="update()" iconcls="icon-edit">修改</div>
-        <div onclick="remove()" iconcls="icon-remove">删除</div>
-    </div>
+    <div region="west" title="" split="true" style="width:500px;">
+			<ul id="SubjectTree"class="easyui-tree"></ul>
+			<div id="treeMenu" class="easyui-menu" style="width: 120px;">
+				<div onclick="append()" iconcls="icon-add">添加</div>
+				<div onclick="update()" iconcls="icon-edit">修改</div>
+				<div onclick="remove()" iconcls="icon-remove">删除</div>
+			</div>
+		</div>
+		<div region="center" title="" split="true">
+			<div>
+				<label for="title">标题或者题干：</lable>
+				<input clas="easyui-validatebox" type="text" name="title" data-options="request:true"/>
+			</div>
+		</div>
 </body>
 </html>
