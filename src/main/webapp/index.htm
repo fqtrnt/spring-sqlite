@@ -2,113 +2,113 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Card</title>
-  <link rel="stylesheet" type="text/css" href="asset/easyui/themes/default/easyui.css">
-  <link rel="stylesheet" type="text/css" href="asset/easyui/themes/icon.css">
-  <script type="text/javascript" src="asset/jquery/jquery.min.js"></script>
-  <script type="text/javascript" src="asset/jquery/jquery.json.min.js"></script>
-  <script type="text/javascript" src="asset/easyui/jquery.easyui.min.js"></script>
-  <script>
-    $(function() {
-        $('#cc').combobox({
-            url: 'subjects',
-            valueField: 'id',
-            textField: 'text',
-            dataType: 'json',
-            contentType: 'application/json',
-            panelHeight: 'auto',
-            onChange: function() {
-                buildTree($('#cc').combobox('getValue'));
-            }
-        });
-        $('#dlg').dialog({
-            iconCls:'icon-save',
-            buttons: '#dlg-buttons',
-            closed: true,
-            onClose: function() {
-                $('#cc').combobox('reload');
-                $('#subjectName').val('');
-                $('#subjectId').val('');
-            }
-        });
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Card</title>
+<link rel="stylesheet" type="text/css" href="asset/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="asset/easyui/themes/icon.css">
+<script type="text/javascript" src="asset/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="asset/jquery/jquery.json.min.js"></script>
+<script type="text/javascript" src="asset/easyui/jquery.easyui.min.js"></script>
+<script>
+  $(function() {
+    $('#cc').combobox({
+      url: 'subjects',
+      valueField: 'id',
+      textField: 'text',
+      dataType: 'json',
+      contentType: 'application/json',
+      panelHeight: 'auto',
+      onChange: function() {
+          buildTree($('#cc').combobox('getValue'));
+      }
     });
-    function editSubject() {
-        $('#subjectName').val($('#cc').combobox('getText'));
-        $('#subjectId').val($('#cc').combobox('getValue'));
-        $('#dlg').dialog('open');
-    };
+    $('#dlg').dialog({
+      iconCls:'icon-save',
+      buttons: '#dlg-buttons',
+      closed: true,
+      onClose: function() {
+        $('#cc').combobox('reload');
+        $('#subjectName').val('');
+        $('#subjectId').val('');
+      }
+    });
+  });
+  function editSubject() {
+    $('#subjectName').val($('#cc').combobox('getText'));
+    $('#subjectId').val($('#cc').combobox('getValue'));
+    $('#dlg').dialog('open');
+  };
 
-    function saveSubject() {
-        $.ajax({
-            url: "subject/save",
-            type: 'post',
-            data: $.toJSON({id: $('#subjectId').val(), text: $('#subjectName').val()}),
-            cache: false,
-            contentType : 'application/json',
-            dataType : 'json',
-            success: function (text) {
-                $('#subjectId').val(text);
-                alert($('#subjectName').val() + ' has been saved.');
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
-            }
+  function saveSubject() {
+    $.ajax({
+      url: "subject/save",
+      type: 'post',
+      data: $.toJSON({id: $('#subjectId').val(), text: $('#subjectName').val()}),
+      cache: false,
+      contentType : 'application/json',
+      dataType : 'json',
+      success: function (text) {
+        $('#subjectId').val(text);
+        alert($('#subjectName').val() + ' has been saved.');
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(jqXHR.responseText);
+      }
+    });
+  };
+
+  function buildTree(subjectId) {
+    $('#SubjectTree').tree({
+      url: 'subject/tree/' + subjectId,
+      checkbox: true,
+      onContextMenu: function(e, node) {
+        e.preventDefault();
+        $('#SubjectTree').tree('select', node.target);
+        $('#treeMenu').menu('show', {
+          left: e.pageX,
+          top: e.pageY
         });
-    };
+      }
+    });
+  };
 
-    function buildTree(subjectId) {
-        $('#SubjectTree').tree({
-            url: 'subject/tree/' + subjectId,
-            checkbox: true,
-            onContextMenu: function(e, node) {
-                e.preventDefault();
-                $('#SubjectTree').tree('select', node.target);
-                $('#treeMenu').menu('show', {
-                    left: e.pageX,
-                    top: e.pageY
-                });
-            }
-        });
-    };
+  function append() {
+  };
 
-    function append() {
-    };
+  function update() {
+  };
 
-    function update() {
-    };
-
-    function remove() {
-    };
-  </script>
+  function remove() {
+  };
+</script>
 </head>
 <body class="easyui-layout">
-    <div region="north" title="" split="true" style="height:100px;">
-			<input id="cc" class="easyui-combobox">
-			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="editSubject();" data-options="iconCls:'icon-add'">Add</a>
-			<div id="dlg" class="easyui-dialog" title="Subject Dialog"
-				style="width:300px;height:120px;padding:10px">
-				Subject: <input class="textbox" name="subjectName" id="subjectName">
-				<input type="hidden" name="subjectId" id="subjectId">
-			</div>
-			<div id="dlg-buttons">
-				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:saveSubject()">Save</a>
-				<a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')">Close</a>
-			</div>
+  <div region="north" title="" split="true" style="height:100px;">
+    <input id="cc" class="easyui-combobox">
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="editSubject();" data-options="iconCls:'icon-add'">Add</a>
+    <div id="dlg" class="easyui-dialog" title="Subject Dialog"
+      style="width:300px;height:120px;padding:10px">
+      Subject: <input class="textbox" name="subjectName" id="subjectName">
+      <input type="hidden" name="subjectId" id="subjectId">
     </div>
-    <div region="west" title="" split="true" style="width:500px;">
-			<ul id="SubjectTree"class="easyui-tree"></ul>
-			<div id="treeMenu" class="easyui-menu" style="width: 120px;">
-				<div onclick="append()" iconcls="icon-add">添加</div>
-				<div onclick="update()" iconcls="icon-edit">修改</div>
-				<div onclick="remove()" iconcls="icon-remove">删除</div>
-			</div>
-		</div>
-		<div region="center" title="" split="true">
-			<div>
-				<label for="title">标题或者题干：</lable>
-				<input clas="easyui-validatebox" type="text" name="title" data-options="request:true"/>
-			</div>
-		</div>
+    <div id="dlg-buttons">
+      <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:saveSubject()">Save</a>
+      <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')">Close</a>
+    </div>
+  </div>
+  <div region="west" title="" split="true" style="width:500px;">
+    <ul id="SubjectTree"class="easyui-tree"></ul>
+    <div id="treeMenu" class="easyui-menu" style="width: 120px;">
+      <div onclick="append()" iconcls="icon-add">添加</div>
+      <div onclick="update()" iconcls="icon-edit">修改</div>
+      <div onclick="remove()" iconcls="icon-remove">删除</div>
+    </div>
+  </div>
+  <div region="center" title="" split="true">
+    <div>
+      <label for="title">标题或者题干：</lable>
+      <input clas="easyui-validatebox" type="text" name="title" data-options="request:true"/>
+    </div>
+  </div>
 </body>
 </html>
