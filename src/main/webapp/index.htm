@@ -73,9 +73,14 @@
   };
 
   function append() {
+    var node = $('#SubjectTree').tree('getSelected');
+    if (!node) return;
   };
 
   function update() {
+    var node = $('#SubjectTree').tree('getSelected');
+    if (!node) return;
+    $('input[name="title"]').val(node.text);
   };
 
   function remove() {
