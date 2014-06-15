@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="asset/easyui/themes/icon.css">
 <script type="text/javascript" src="asset/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="asset/jquery/jquery.json.min.js"></script>
+<script type="text/javascript" src="asset/jquery/jquery.form.js"></script>
 <script type="text/javascript" src="asset/easyui/jquery.easyui.min.js"></script>
 <script>
   $(function() {
@@ -44,6 +45,12 @@
         return value + '星';
       }
     });
+    $('#contentForm').submit(function() {
+      $(this).ajaxSubmit({
+        url: 'subject/knowledge/save'
+      });
+      return false;
+    });
   });
   function editSubject() {
     $('#subjectName').val($('#cc').combobox('getText'));
@@ -59,12 +66,12 @@
     });
   };
 
-  function saveKnowledge() {
-    var data = null;
-    save('subject/knowledge/save', data, function(text) {
-      $('#id').val(text);
-      alert('Knowledge success saved.');
-    });
+  function submitForm() {
+    $('#contentForm').submit();
+  }
+
+  function resetForm() {
+    $('#contentForm').form('reset');
   }
   function save(url, jsonData, callback) {
     $.ajax({
@@ -138,47 +145,50 @@
     </div>
   </div>
   <div region="center" title="" split="true">
-    <div>
-      <label for="nodeTitle">标题或者题干：</label>
-      <input clas="easyui-validatebox" type="text" name="nodeTitle" data-options="request:true"/>
-    </div>
-    <div>
-      <input type="hidden" name="id"/>
-      <input type="hidden" name="parentId"/>
-    </div>
-    <div>
-      <label for="proficiency">熟悉程度：</label>
-      <br>
-      <br>
-      <input id="proficiency" name="proficiency" class="easyui-slider" value="1"/>
-      <br>
-    </div>
-    <div>
-      <label for="pageNumber">页码：</label>
-      <input name="pageNumber" type="text" class="easyui-numberbox" data-optins="min:0,max:999" value="0"/>
-    </div>
-    <div>
-      <label for="type">类型：</label>
-      <input id="type" name="type" class="easyui-combobox"
-        data-options="
-          valueField:'label',
-          textField:'text',
-          width: 50,
-          data: [
-            {label: '0', text: '&nbsp;'},
-            {label: '1', text: '单选'},
-            {label: '2', text: '多选'},
-            {label: '3', text: '简答'},
-            {label: '4', text: '论述'}
-          ],
-          panelHeight:'auto'"
-      />
-    </div>
-    <div>
-      <label for="text">内容:</label>
-      <textarea name="text" rows="20" cols="40"></textarea>
-    </div>
-    <a href="#" class="easyui-linkbutton" onclick="saveKnowledge()" data-options="iconCls:'icon-save'">保存</a>
+    <form id="contentForm" method="post">
+      <div>
+        <label for="nodeTitle">标题或者题干：</label>
+        <input clas="easyui-validatebox" type="text" name="nodeTitle" data-options="request:true"/>
+      </div>
+      <div>
+        <input type="hidden" name="id"/>
+        <input type="hidden" name="parentId"/>
+      </div>
+      <div>
+        <label for="proficiency">熟悉程度：</label>
+        <br>
+        <br>
+        <input id="proficiency" name="proficiency" class="easyui-slider" value="1"/>
+        <br>
+      </div>
+      <div>
+        <label for="pageNumber">页码：</label>
+        <input name="pageNumber" type="text" class="easyui-numberbox" data-optins="min:0,max:999" value="0"/>
+      </div>
+      <div>
+        <label for="type">类型：</label>
+        <input id="type" name="type" value="0"  class="easyui-combobox"
+          data-options="
+            valueField:'label',
+            textField:'text',
+            width: 50,
+            data: [
+              {label: '0', text: '&nbsp;'},
+              {label: '1', text: '单选'},
+              {label: '2', text: '多选'},
+              {label: '3', text: '简答'},
+              {label: '4', text: '论述'}
+            ],
+            panelHeight:'auto'"
+        />
+      </div>
+      <div>
+        <label for="text">内容:</label>
+        <textarea name="text" rows="20" cols="40"></textarea>
+      </div>
+      <a href="#" class="easyui-linkbutton" onclick="submitForm()" data-options="iconCls:'icon-save'">保存</a>
+      <a href="#" class="easyui-linkbutton" onclick="resetForm()" data-options="iconCls:'icon-save'">重置</a>
+    </form>
   </div>
 </body>
 </html>

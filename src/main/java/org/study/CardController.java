@@ -6,6 +6,7 @@ package org.study;
 
 import static com.google.common.collect.ImmutableList.of;
 import static com.google.common.collect.Lists.newArrayList;
+
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.study.entity.Knowledge;
 import org.study.entity.Subject;
 
 
@@ -49,4 +51,10 @@ public class CardController {
 	public List<SubjectTreeNode> subjectTree(@PathVariable String subjectId ) {
 		return of(new SubjectTreeNode(carService.findSubject(subjectId)));
 	}
+  @ResponseBody
+  @RequestMapping(value = "subject/knowledge/save", produces = {})
+  public String saveKnowledge(Knowledge knowledge) {
+    System.out.println("---------------------" + knowledge.getProficiency());
+    return null;
+  }
 }
