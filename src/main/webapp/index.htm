@@ -32,6 +32,18 @@
         $('#subjectId').val('');
       }
     });
+    $('#proficiency').slider({
+      min: 0,
+      max: 5,
+      width: 200,
+      height:300,
+      mode: 'h',
+      showTip: true,
+      rule: [0,'|',1,'|',2,'|',3,'|',4,'|',5],
+      tipFormatter: function(value) {
+        return value + '星';
+      }
+    });
   });
   function editSubject() {
     $('#subjectName').val($('#cc').combobox('getText'));
@@ -40,23 +52,36 @@
   };
 
   function saveSubject() {
-    $.ajax({
-      url: "subject/save",
-      type: 'post',
-      data: $.toJSON({id: $('#subjectId').val(), text: $('#subjectName').val()}),
-      cache: false,
-      contentType : 'application/json',
-      dataType : 'json',
-      success: function (text) {
-        $('#subjectId').val(text);
-        alert($('#subjectName').val() + ' has been saved.');
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        alert(jqXHR.responseText);
-      }
+    var data = $.toJSON({id: $('#subjectId').val(), text: $('#subjectName').val()});
+    save('subject/save', data, function(text) {
+      $('#subjectId').val(text);
+      alert($('#subjectName').val() + ' has been saved.');
     });
   };
 
+  function saveKnowledge() {
+    var data = null;
+    save('subject/knowledge/save', data, function(text) {
+      $('#id').val(text);
+      alert('Knowledge success saved.');
+    });
+  }
+  function save(url, jsonData, callback) {
+    $.ajax({
+      url: url,
+      type: 'post',
+      data: jsonData,
+      cache: false,
+      contentType: 'application/json',
+      dataType: 'json',
+      success: function(text) {
+        callback(text)
+      },
+      error: function(jqXHR, textStatus, errorTHrown) {
+        alert(jqXHR.responseText);
+      }
+    });
+  }
   function buildTree(subjectId) {
     $('#SubjectTree').tree({
       url: 'subject/tree/' + subjectId,
@@ -75,12 +100,15 @@
   function append() {
     var node = $('#SubjectTree').tree('getSelected');
     if (!node) return;
+    $('input[name="parentId"]').val(node.id);
+    $('input[name="nodeTitle"]').val(node.text);
   };
 
   function update() {
     var node = $('#SubjectTree').tree('getSelected');
-    if (!node) return;
-    $('input[name="title"]').val(node.text);
+    if (!node || !node.leaf) return;
+    $('input[name="parentId"]').val(node.id);
+    $('input[name="nodeTitle"]').val(node.text);
   };
 
   function remove() {
@@ -111,9 +139,46 @@
   </div>
   <div region="center" title="" split="true">
     <div>
-      <label for="title">标题或者题干：</lable>
-      <input clas="easyui-validatebox" type="text" name="title" data-options="request:true"/>
+      <label for="nodeTitle">标题或者题干：</label>
+      <input clas="easyui-validatebox" type="text" name="nodeTitle" data-options="request:true"/>
     </div>
+    <div>
+      <input type="hidden" name="id"/>
+      <input type="hidden" name="parentId"/>
+    </div>
+    <div>
+      <label for="proficiency">熟悉程度：</label>
+      <br>
+      <br>
+      <input id="proficiency" name="proficiency" class="easyui-slider" value="1"/>
+      <br>
+    </div>
+    <div>
+      <label for="pageNumber">页码：</label>
+      <input name="pageNumber" type="text" class="easyui-numberbox" data-optins="min:0,max:999" value="0"/>
+    </div>
+    <div>
+      <label for="type">类型：</label>
+      <input id="type" name="type" class="easyui-combobox"
+        data-options="
+          valueField:'label',
+          textField:'text',
+          width: 50,
+          data: [
+            {label: '0', text: '&nbsp;'},
+            {label: '1', text: '单选'},
+            {label: '2', text: '多选'},
+            {label: '3', text: '简答'},
+            {label: '4', text: '论述'}
+          ],
+          panelHeight:'auto'"
+      />
+    </div>
+    <div>
+      <label for="text">内容:</label>
+      <textarea name="text" rows="20" cols="40"></textarea>
+    </div>
+    <a href="#" class="easyui-linkbutton" onclick="saveKnowledge()" data-options="iconCls:'icon-save'">保存</a>
   </div>
 </body>
 </html>
