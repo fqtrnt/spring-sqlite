@@ -41,7 +41,10 @@ public class KnowledgeTreeNode implements TreeNode {
     public String getState() {
         return "closed";
     }
-
+    @Override
+    public boolean isLeaf() {
+        return true;
+    }
     @Override
     public List<TreeNode> getChildren() {
         return from(node.getChildren()).transform(new Function<Knowledge, TreeNode>() {

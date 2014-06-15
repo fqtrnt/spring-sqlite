@@ -38,6 +38,9 @@ public class SubjectTreeNode implements TreeNode {
     public String getText() {
         return subject.getTitle();
     }
+    public boolean isLeaf() {
+        return false;
+    }
     public List<TreeNode> getChildren() {
         return from(subject.getKnowledges()).transform(new Function<Knowledge, TreeNode>() {
             @Override public TreeNode apply(Knowledge input) {

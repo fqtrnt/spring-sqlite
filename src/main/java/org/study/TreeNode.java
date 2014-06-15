@@ -14,5 +14,6 @@ public interface TreeNode {
     String getId();
     String getText();
     String getState();
+    boolean isLeaf();
     List<TreeNode> getChildren();
 }
